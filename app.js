@@ -93,25 +93,31 @@ function renderPieChart(counts) {
     pieChartInstance.destroy();
   }
 
+    const backgroundColors = Object.keys(counts).map((_, i) =>
+    `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
+  );
+
   pieChartInstance = new Chart(context, {
-    type: 'pie',
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{
-        label: 'Finds by Type',
-        data: Object.values(counts),
-        backgroundColor: 'hsl(185, 84%, 25%)'
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: 'Finds by Type' }
+      type: 'pie',
+      data: {
+        labels: Object.keys(counts),
+        datasets: [{
+          label: 'Finds by Type',
+          data: Object.values(counts),
+          backgroundColor: backgroundColors,
+          borderColor: 'white',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'right' },
+          title: { display: true, text: 'Finds by Type (Pie Chart)' }
+        }
       }
-    }
-  });
-}
+    });
+  }
 
 
 function countFinds(data, key) {
