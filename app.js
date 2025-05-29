@@ -55,17 +55,18 @@ function populateTable(data) {
   }, 300);
 }
 
-let allCounts = null;       // Store original counts data globally
-let chartInstance = null;   // Store Chart.js instance globally
+let allCounts = null;
+let barChartInstance = null;
+let pieChartInstance = null;
 
-function renderChart(counts) {
-  const context = document.getElementById('typeChart').getContext('2d');
+function renderBarChart(counts) {
+  const context = document.getElementById('barChart').getContext('2d');
 
-  if (chartInstance) {
-    chartInstance.destroy();
+  if (barChartInstance) {
+    barChartInstance.destroy();
   }
 
-  chartInstance = new Chart(context, {
+  barChartInstance = new Chart(context, {
     type: 'bar',
     data: {
       labels: Object.keys(counts),
@@ -84,6 +85,34 @@ function renderChart(counts) {
     }
   });
 }
+
+function renderPieChart(counts) {
+  const context = document.getElementById('pieChart').getContext('2d');
+
+  if (pieChartInstance) {
+    pieChartInstance.destroy();
+  }
+
+  pieChartInstance = new Chart(context, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(counts),
+      datasets: [{
+        label: 'Finds by Type',
+        data: Object.values(counts),
+        backgroundColor: 'hsl(185, 84%, 25%)'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Finds by Type' }
+      }
+    }
+  });
+}
+
 
 function countFinds(data, key) {
   return data.reduce((acc, obj) => {
@@ -126,12 +155,14 @@ function updateChart() {
     filteredCounts[checked.value] = allCounts[checked.value];
   });
 
-  renderChart(filteredCounts);
+  renderBarChart(filteredCounts);
+  renderPieChart(filteredCounts);
 }
 
 loadJsonData().then(data => {
   allCounts = countFinds(data, 'Type');
   createCheckboxes(allCounts);
-  renderChart(allCounts);
+  renderBarChart(allCounts);
+  renderPieChart(allCounts);
   populateTable(data);
 });
