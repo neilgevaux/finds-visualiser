@@ -58,6 +58,7 @@ function populateTable(data) {
 let allCounts = null;
 let barChartInstance = null;
 let pieChartInstance = null;
+let doughnutChartInstance = null
 
 function renderBarChart(counts) {
   const context = document.getElementById('barChart').getContext('2d');
@@ -119,6 +120,40 @@ function renderPieChart(counts) {
     });
   }
 
+  function renderDoughnutChart(counts) {
+  const context = document.getElementById('doughnutChart').getContext('2d');
+
+  if (doughnutChartInstance) {
+    doughnutChartInstance.destroy();
+  }
+
+    const backgroundColors = Object.keys(counts).map((_, i) =>
+    `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
+  );
+
+  doughnutChartInstance = new Chart(context, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(counts),
+        datasets: [{
+          label: 'Finds by Type',
+          data: Object.values(counts),
+          backgroundColor: backgroundColors,
+          borderColor: 'white',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'right' },
+          title: { display: true, text: 'Finds by Type (Pie Chart)' }
+        }
+      }
+    });
+  }
+
+
 
 function countFinds(data, key) {
   return data.reduce((acc, obj) => {
@@ -163,6 +198,7 @@ function updateChart() {
 
   renderBarChart(filteredCounts);
   renderPieChart(filteredCounts);
+  renderDoughnutChart(filteredCounts);
 }
 
 loadJsonData().then(data => {
@@ -170,5 +206,6 @@ loadJsonData().then(data => {
   createCheckboxes(allCounts);
   renderBarChart(allCounts);
   renderPieChart(allCounts);
+  renderDoughnutChart(allCounts);
   populateTable(data);
 });
