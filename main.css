@@ -1,3 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
+  color: hsl(209, 61%, 16%) !important;
+  margin: 0;
+  padding: 0;
+
+  h1 {
+    color: hsl(210, 36%, 96%);
+    font-size: rem;
+    font-weight: 800;
+    margin: 0 auto;
+  }
+  
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: hsl(211, 39%, 23%);
+  font-weight: 800;
+}
+
+#header {
+  background-color: hsl(211, 39%, 23%);
+  height: 10em;
+  padding-top: 4em;
+}
+
+#main-container {
+  padding: 5rem 0;
+}
+
+#findsTable, h2 {
+  display: none;
+}
+
+/* .dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 6px 12px;
+  margin: 2px;
+  color: #007bff;
+  border-radius: 4px;
+  font-weight: 500;
+} */
+
+.dataTables_length {
+  font-size: 14px;
+  margin-bottom: 3rem;
+}
+
+.dataTables_filter input {
+  border: 20px solid red;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Move search bar to the left or center */
+.dataTables_filter {
+  text-align: left !important;
+}
+
+/* Adjust length dropdown */
+.dataTables_length select {
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* table#findsTable tbody tr.odd {
+  background-color: black !important;
+} */
+
+
+table#findsTable tbody {
+  font-family: 'Inter', sans-serif;
+  color: hsl(209, 61%, 16%) !important;
+}
+/* 
+table#findsTable thead th {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+
+table#findsTable tbody tr,
+table#findsTable tbody tr.odd,
+table#findsTable tbody tr.even {
+  background-color: black !important;
+  color: white !important;  /* probably want to set text color */
+/* } */
+
+table#findsTable tbody tr:hover {
+  background-color: hsl(210, 36%, 96%) !important;
 }

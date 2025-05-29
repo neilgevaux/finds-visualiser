@@ -4,7 +4,30 @@ async function loadJsonData() {
   return data.filter(d => d.Type);
 }
 
+const loadingSpinner = document.getElementById('loadingSpinner');
+const findsTable = document.getElementById('findsTable');
+const tableSectionHeading = document.getElementById('findsTableHeading');
+
+function showSpinner() {
+  loadingSpinner.style.display = 'block';
+  const spinner = loadingSpinner.querySelector('.spinner-border');
+  spinner.classList.remove('text-primary');
+  spinner.style.color = 'hsl(330, 66%, 57%)';
+  findsTable.style.display = 'none';
+  tableSectionHeading.style.display = 'none';
+}
+
+function hideSpinner() {
+  loadingSpinner.style.display = 'none';
+  findsTable.style.display = 'table';
+  tableSectionHeading.style.display = 'block';
+}
+
 function populateTable(data) {
+
+  showSpinner();
+
+  setTimeout(() => {
   const tbody = document.querySelector('#findsTable tbody');
   tbody.innerHTML = '';
   data.forEach(item => {
@@ -20,6 +43,15 @@ function populateTable(data) {
     `;
     tbody.insertAdjacentHTML('beforeend', row);
   });
+
+  // Use jQuery DataTable plugin to paginate table
+   if ($.fn.DataTable.isDataTable('#findsTable')) {
+    $('#findsTable').DataTable().destroy();
+  }
+  $('#findsTable').DataTable();
+
+  hideSpinner();
+  }, 300);
 }
 
 function renderChart(counts) {
@@ -31,7 +63,7 @@ function renderChart(counts) {
       datasets: [{
         label: 'Finds by Type',
         data: Object.values(counts),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+        backgroundColor: 'hsl(185, 84%, 25%)'
       }]
     },
     options: {
