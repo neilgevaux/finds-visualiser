@@ -5,6 +5,7 @@ async function loadJsonData() {
 }
 
 const loadingSpinner = document.getElementById('loadingSpinner');
+const findsTableContainer = document.getElementById('findsTableContainer');
 const findsTable = document.getElementById('findsTable');
 const tableSectionHeading = document.getElementById('findsTableHeading');
 
@@ -13,12 +14,12 @@ function showSpinner() {
   const spinner = loadingSpinner.querySelector('.spinner-border');
   spinner.classList.remove('text-primary');
   spinner.style.color = 'hsl(330, 66%, 57%)';
-  findsTable.style.display = 'none';
-  tableSectionHeading.style.display = 'none';
+  findsTableContainer.style.display = 'none';
 }
 
 function hideSpinner() {
   loadingSpinner.style.display = 'none';
+  findsTableContainer.style.display = 'block';
   findsTable.style.display = 'table';
   tableSectionHeading.style.display = 'block';
 }

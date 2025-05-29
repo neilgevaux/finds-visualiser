@@ -5,6 +5,7 @@
 body {
   font-family: 'Inter', sans-serif;
   color: hsl(209, 61%, 16%) !important;
+  background: hsl(210, 36%, 96%);
   margin: 0;
   padding: 0;
 
@@ -14,13 +15,13 @@ body {
     font-weight: 800;
     margin: 0 auto;
   }
-  
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: hsl(211, 39%, 23%);
   font-weight: 800;
 }
+
 
 #header {
   background-color: hsl(211, 39%, 23%);
@@ -32,7 +33,11 @@ h1, h2, h3, h4, h5, h6 {
   padding: 5rem 0;
 }
 
-#findsTable, h2 {
+.data-container {
+    background: hsl(210, 36%, 99%);
+}
+
+#findsTable, #findsTableHeading {
   display: none;
 }
 
