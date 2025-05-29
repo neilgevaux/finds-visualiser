@@ -55,9 +55,17 @@ function populateTable(data) {
   }, 300);
 }
 
+let allCounts = null;       // Store original counts data globally
+let chartInstance = null;   // Store Chart.js instance globally
+
 function renderChart(counts) {
   const context = document.getElementById('typeChart').getContext('2d');
-  new Chart(context, {
+
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  chartInstance = new Chart(context, {
     type: 'bar',
     data: {
       labels: Object.keys(counts),
@@ -85,8 +93,45 @@ function countFinds(data, key) {
   }, {});
 }
 
+function createCheckboxes(counts) {
+  const container = document.getElementById('category-filters');
+  container.innerHTML = '';  // clear existing filters
+
+  Object.keys(counts).forEach(category => {
+    const label = document.createElement('label');
+    label.style.marginRight = '10px';
+    label.style.userSelect = 'none';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = true;
+    checkbox.value = category;
+    checkbox.style.marginRight = '4px';
+
+    checkbox.addEventListener('change', () => {
+      updateChart();
+    });
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(category));
+    container.appendChild(label);
+  });
+}
+
+function updateChart() {
+  const checkedBoxes = Array.from(document.querySelectorAll('#category-filters input[type="checkbox"]:checked'));
+  const filteredCounts = {};
+
+  checkedBoxes.forEach(checked => {
+    filteredCounts[checked.value] = allCounts[checked.value];
+  });
+
+  renderChart(filteredCounts);
+}
+
 loadJsonData().then(data => {
-  const counts = countFinds(data, 'Type');
-  renderChart(counts);
+  allCounts = countFinds(data, 'Type');
+  createCheckboxes(allCounts);
+  renderChart(allCounts);
   populateTable(data);
 });
