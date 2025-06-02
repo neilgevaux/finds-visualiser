@@ -1,54 +1,63 @@
 async function loadJsonData() {
-  const finds = await fetch("finds_data.json");
+  const finds = await fetch('finds_data.json');
   const data = await finds.json();
-  return data.filter((d) => d.Type);
+  return data.filter(d => d.Type);
 }
 
-const loadingSpinner = document.getElementById("loadingSpinner");
-const findsTableContainer = document.getElementById("findsTableContainer");
-const findsTable = document.getElementById("findsTable");
-const tableSectionHeading = document.getElementById("findsTableHeading");
+const loadingSpinner = document.getElementById('loadingSpinner');
+const findsTableContainer = document.getElementById('findsTableContainer');
+const findsTable = document.getElementById('findsTable');
+const tableSectionHeading = document.getElementById('findsTableHeading');
 
 function showSpinner() {
-  loadingSpinner.style.display = "block";
-  const spinner = loadingSpinner.querySelector(".spinner-border");
-  spinner.classList.remove("text-primary");
-  spinner.style.color = "hsl(330, 66%, 57%)";
-  findsTableContainer.style.display = "none";
+  loadingSpinner.style.display = 'block';
+  const spinner = loadingSpinner.querySelector('.spinner-border');
+  spinner.classList.remove('text-primary');
+  spinner.style.color = 'hsl(330, 66%, 57%)';
+  findsTableContainer.style.display = 'none';
 }
 
 function hideSpinner() {
-  loadingSpinner.style.display = "none";
-  findsTableContainer.style.display = "block";
-  findsTable.style.display = "table";
-  tableSectionHeading.style.display = "block";
+  loadingSpinner.style.display = 'none';
+  findsTableContainer.style.display = 'block';
+  findsTable.style.display = 'table';
+  tableSectionHeading.style.display = 'block';
 }
+
+// Create data table
+let findsTableInstance;
 
 function populateTable(data) {
   showSpinner();
 
   setTimeout(() => {
-    const tbody = document.querySelector("#findsTable tbody");
-    tbody.innerHTML = "";
-    data.forEach((item) => {
+    const tbody = document.querySelector('#findsTable tbody');
+    tbody.innerHTML = '';
+
+    data.forEach(item => {
       const row = `
-      <tr>
-        <td>${item["Finds number"] || ""}</td>
-        <td>${item["Type"] || ""}</td>
-        <td>${item["ID"] || ""}</td>
-        <td>${item["Context"] || ""}</td>
-        <td>${item["Site"] || ""}</td>
-        <td>${item["Grid"] || ""}</td>
-      </tr>
-    `;
-      tbody.insertAdjacentHTML("beforeend", row);
+        <tr>
+          <td>${item["Finds number"] || ''}</td>
+          <td>${item["Type"] || ''}</td>
+          <td>${item["ID"] || ''}</td>
+          <td>${item["Context"] || ''}</td>
+          <td>${item["Site"] || ''}</td>
+          <td>${item["Grid"] || ''}</td>
+        </tr>
+      `;
+      tbody.insertAdjacentHTML('beforeend', row);
     });
 
-    // Use jQuery DataTable plugin to paginate table
-    if ($.fn.DataTable.isDataTable("#findsTable")) {
-      $("#findsTable").DataTable().destroy();
+    if (findsTableInstance) {
+      findsTableInstance.destroy();
     }
-    $("#findsTable").DataTable();
+
+    findsTableInstance = new DataTable('#findsTable', {
+      pageLength: 10,
+      searchable: true,
+      sortable: true,
+      theme: 'bootstrap5'
+    });
 
     hideSpinner();
   }, 300);
@@ -57,133 +66,131 @@ function populateTable(data) {
 let allCounts = null;
 let barChartInstance = null;
 let pieChartInstance = null;
-let doughnutChartInstance = null;
+let doughnutChartInstance = null
 
 function renderBarChart(counts) {
-  const context = document.getElementById("barChart").getContext("2d");
+  const context = document.getElementById('barChart').getContext('2d');
 
   if (barChartInstance) {
     barChartInstance.destroy();
   }
 
   barChartInstance = new Chart(context, {
-    type: "bar",
+    type: 'bar',
     data: {
       labels: Object.keys(counts),
-      datasets: [
-        {
-          label: "Finds by Type",
-          data: Object.values(counts),
-          backgroundColor: "hsl(210, 22%, 49%)",
-        },
-      ],
+      datasets: [{
+        label: 'Finds by Type',
+        data: Object.values(counts),
+        backgroundColor: 'hsl(210, 22%, 49%)'
+      }]
     },
     options: {
       responsive: true,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: "Finds by Type" },
-      },
-    },
+        title: { display: true, text: 'Finds by Type' }
+      }
+    }
   });
 }
 
 function renderPieChart(counts) {
-  const context = document.getElementById("pieChart").getContext("2d");
+  const context = document.getElementById('pieChart').getContext('2d');
 
   if (pieChartInstance) {
     pieChartInstance.destroy();
   }
 
-  const backgroundColors = generatePaletteColors(Object.keys(counts).length);
+    const backgroundColors = Object.keys(counts).map((_, i) =>
+    `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
+  );
+
   pieChartInstance = new Chart(context, {
-    type: "pie",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [
-        {
-          label: "Finds by Type",
+      type: 'pie',
+      data: {
+        labels: Object.keys(counts),
+        datasets: [{
+          label: 'Finds by Type',
           data: Object.values(counts),
           backgroundColor: backgroundColors,
-          borderColor: "white",
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true, position: "right" },
-        title: { display: true, text: "Finds by Type (Pie Chart)" },
+          borderColor: 'white',
+          borderWidth: 2
+        }]
       },
-    },
-  });
-}
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'right' },
+          title: { display: true, text: 'Finds by Type (Pie Chart)' }
+        }
+      }
+    });
+  }
 
-function renderDoughnutChart(counts) {
-  const context = document.getElementById("doughnutChart").getContext("2d");
+  function renderDoughnutChart(counts) {
+  const context = document.getElementById('doughnutChart').getContext('2d');
 
   if (doughnutChartInstance) {
     doughnutChartInstance.destroy();
   }
 
-  const backgroundColors = Object.keys(counts).map(
-    (_, i) => `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
+    const backgroundColors = Object.keys(counts).map((_, i) =>
+    `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
   );
 
   doughnutChartInstance = new Chart(context, {
-    type: "doughnut",
-    data: {
-      labels: Object.keys(counts),
-      datasets: [
-        {
-          label: "Finds by Type",
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(counts),
+        datasets: [{
+          label: 'Finds by Type',
           data: Object.values(counts),
           backgroundColor: backgroundColors,
-          borderColor: "white",
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true, position: "right" },
-        title: { display: true, text: "Finds by Type (Pie Chart)" },
+          borderColor: 'white',
+          borderWidth: 2
+        }]
       },
-    },
-  });
-}
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'right' },
+          title: { display: true, text: 'Finds by Type (Pie Chart)' }
+        }
+      }
+    });
+  }
+
 
 function countFinds(data, key) {
   return data.reduce((acc, obj) => {
-    const k = obj[key] || "Unknown";
+    const k = obj[key] || 'Unknown';
     acc[k] = (acc[k] || 0) + 1;
     return acc;
   }, {});
 }
 
 function createCheckboxes(counts) {
-  const container = document.getElementById("category-filters");
-  container.innerHTML = "";
+  const container = document.getElementById('category-filters');
+  container.innerHTML = '';
 
-  Object.keys(counts).forEach((category) => {
-    const label = document.createElement("label");
-    label.className = "filter-badge active";
+  Object.keys(counts).forEach(category => {
+    const label = document.createElement('label');
+    label.className = 'filter-badge active';
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
     checkbox.value = category;
     checkbox.checked = true;
 
-    checkbox.addEventListener("change", () => {
-      label.classList.toggle("active", checkbox.checked);
+    checkbox.addEventListener('change', () => {
+      label.classList.toggle('active', checkbox.checked);
       updateChart();
     });
 
     const textNode = document.createTextNode(category);
-    const closeIcon = document.createElement("span");
-    closeIcon.innerHTML = "&times;";
+    const closeIcon = document.createElement('span');
+    closeIcon.innerHTML = '&times;';
 
     label.appendChild(checkbox);
     label.appendChild(textNode);
@@ -192,14 +199,10 @@ function createCheckboxes(counts) {
 }
 
 function updateChart() {
-  const checkedBoxes = Array.from(
-    document.querySelectorAll(
-      '#category-filters input[type="checkbox"]:checked'
-    )
-  );
+  const checkedBoxes = Array.from(document.querySelectorAll('#category-filters input[type="checkbox"]:checked'));
   const filteredCounts = {};
 
-  checkedBoxes.forEach((checked) => {
+  checkedBoxes.forEach(checked => {
     filteredCounts[checked.value] = allCounts[checked.value];
   });
 
@@ -208,32 +211,11 @@ function updateChart() {
   renderDoughnutChart(filteredCounts);
 }
 
-loadJsonData().then((data) => {
-  allCounts = countFinds(data, "Type");
+loadJsonData().then(data => {
+  allCounts = countFinds(data, 'Type');
   createCheckboxes(allCounts);
   renderBarChart(allCounts);
   renderPieChart(allCounts);
   renderDoughnutChart(allCounts);
   populateTable(data);
 });
-
-function generatePaletteColors(count) {
-  const colors = [];
-  const hueStart = 224;
-  const hueEnd = 331;
-  const satMin = 40;
-  const satMax = 80;
-  const lightMin = 20;
-  const lightMax = 76;
-
-  for (let i = 0; i < count; i++) {
-    const hue = hueStart + (i * (hueEnd - hueStart)) / count;
-
-    const saturation = satMin + ((i * 10) % (satMax - satMin));
-    const lightness = lightMin + ((i * 15) % (lightMax - lightMin));
-
-    colors.push(`hsl(${hue.toFixed(0)}, ${saturation}%, ${lightness}%)`);
-  }
-
-  return colors;
-}
