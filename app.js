@@ -121,10 +121,6 @@ function renderPieChart(counts) {
     pieChartInstance.destroy();
   }
 
-  // const backgroundColors = Object.keys(counts).map((_, i) =>
-  // `hsl(${(i * 360) / Object.keys(counts).length}, 70%, 60%)`
-  // );
-
   const backgroundColors = generateGradientColors(
     Object.keys(counts).length,
     [227, 42, 51],
@@ -149,7 +145,7 @@ function renderPieChart(counts) {
       responsive: true,
       plugins: {
         legend: { display: true, position: "right" },
-        title: { display: true, text: "Finds by Type (Pie Chart)" },
+        title: { display: false, text: "Finds by Type (Pie Chart)" },
       },
     },
   });
@@ -186,7 +182,7 @@ function renderDoughnutChart(counts) {
       responsive: true,
       plugins: {
         legend: { display: true, position: "right" },
-        title: { display: true, text: "Finds by Type (Pie Chart)" },
+        title: { display: false, text: "Finds by Type (Doughnut Chart)" },
       },
     },
   });
