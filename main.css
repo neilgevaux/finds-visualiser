@@ -11,10 +11,14 @@ body {
 
   h1 {
     color: hsl(210, 36%, 96%);
-    font-size: rem;
+    font-size: 2rem;
     font-weight: 800;
     margin: 0 auto;
   }
+}
+
+h2 {
+  font-size: 1.5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,21 +28,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #header {
   background-color: hsl(211, 39%, 23%);
-  height: 10em;
+  height: 12em;
   padding-top: 4em;
 }
 
-#tags {
-  width: 50%;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  position: relative;
-  top: -1.5rem;
-  z-index: 10; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 #main-container {
   padding: 5rem 0;
@@ -114,6 +107,17 @@ table#findsTable tbody tr:hover {
   background-color: hsl(210, 36%, 96%) !important;
 }
 
+#tags {
+  width: 40%;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+  top: -3rem;
+  z-index: 10; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .filter-badge {
   display: inline-block;
@@ -121,11 +125,11 @@ table#findsTable tbody tr:hover {
   padding: 6px 12px;
   margin: 5px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   user-select: none;
   transition: background-color 0.2s, color 0.2s;
-  background-color: #e0e0e0;
-  color: #888;
+  background-color: hsl(212, 33%, 89%);
+  color: hsl(209, 23%, 60%);
 }
 
 .filter-badge input[type="checkbox"] {
@@ -133,8 +137,8 @@ table#findsTable tbody tr:hover {
 }
 
 .filter-badge.active {
-  background-color: #007bff;
-  color: white;
+  background-color: hsl(210, 22%, 49%);
+  color: hsl(221, 68%, 93%);
 }
 
 .filter-badge .close-icon {
