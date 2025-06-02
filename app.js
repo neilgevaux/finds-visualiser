@@ -165,25 +165,30 @@ function countFinds(data, key) {
 
 function createCheckboxes(counts) {
   const container = document.getElementById('category-filters');
-  container.innerHTML = '';  // clear existing filters
+  container.innerHTML = '';
 
   Object.keys(counts).forEach(category => {
     const label = document.createElement('label');
-    label.style.marginRight = '10px';
-    label.style.userSelect = 'none';
+    label.className = 'filter-badge active';
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = true;
     checkbox.value = category;
-    checkbox.style.marginRight = '4px';
+    checkbox.checked = true;
 
     checkbox.addEventListener('change', () => {
+      label.classList.toggle('active', checkbox.checked);
       updateChart();
     });
 
+    const textNode = document.createTextNode(category);
+    const closeIcon = document.createElement('span');
+    closeIcon.className = 'close-icon';
+    closeIcon.innerHTML = '&times;';
+
     label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(category));
+    label.appendChild(textNode);
+    label.appendChild(closeIcon);
     container.appendChild(label);
   });
 }

@@ -22,11 +22,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
 }
 
-
 #header {
   background-color: hsl(211, 39%, 23%);
   height: 10em;
   padding-top: 4em;
+}
+
+#tags {
+  width: 50%;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+  top: -1.5rem;
+  z-index: 10; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #main-container {
@@ -101,4 +112,33 @@ table#findsTable tbody tr.even {
 
 table#findsTable tbody tr:hover {
   background-color: hsl(210, 36%, 96%) !important;
+}
+
+
+.filter-badge {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 6px 12px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+  background-color: #e0e0e0;
+  color: #888;
+}
+
+.filter-badge input[type="checkbox"] {
+  display: none;
+}
+
+.filter-badge.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.filter-badge .close-icon {
+  margin-left: 8px;
+  font-weight: bold;
+  color: inherit;
 }
