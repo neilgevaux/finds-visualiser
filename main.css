@@ -29,26 +29,61 @@ h1, h2, h3, h4, h5, h6 {
 #header {
   background-color: hsl(211, 39%, 23%);
   height: 12em;
-  padding-top: 4em;
+  padding-top: 3em;
 }
 
-
-/* #main-container {
-  padding: 5rem 0;
-} */
-
+/* Charts */
 .data-container {
     background: hsl(210, 36%, 99%);
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
 }
 
+/* Table */
 #findsTable, #findsTableHeading {
   display: none;
 }
 
+table, td {
+  font-size: 0.9rem;
+  color: hsl(209, 61%, 16%) !important;
+}
 
+.dt-column-header{
+  color: hsl(209, 61%, 16%) !important;
+}
 
+#findsTable_info.dt-info, .dt-length label, .dt-search label {
+    font-size: 0.9rem !important;
+    color: hsl(209, 34%, 30%) !important;
+    font-weight: 400 !important;
+    background-color: transparent !important;
+    border-color: hsl(210, 22%, 49%) !important;
+}
+
+/* Pagination controls */
+.pagination .page-item .page-link {
+  font-size: 0.8rem; /* smaller font size */
+  color: hsl(209, 34%, 30%);
+  border-color: hsl(209, 34%, 30%);
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-item:hover .page-link {
+  background-color: hsl(209, 34%, 30%);
+  color: white;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: hsl(209, 34%, 30%);
+  color: white;
+  border-color: hsl(209, 34%, 30%);
+  box-shadow: none;
+  font-weight: 600;
+}
+
+/* Filter tags */
 #tags {
   width: 40%;
   margin: 0 auto;
@@ -56,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1rem;
   border-radius: 0.5rem;
   position: relative;
-  top: -3rem;
+  top: -5rem;
   z-index: 10; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -79,8 +114,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .filter-badge.active {
-  background-color: hsl(210, 22%, 49%);
-  color: hsl(221, 68%, 93%);
+  background-color: hsl(209, 61%, 16%);
+  color: hsl(221, 68%, 99%);
 }
 
 .filter-badge .close-icon {
