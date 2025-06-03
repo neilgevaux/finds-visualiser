@@ -48,12 +48,10 @@ function populateTable(data) {
       tbody.insertAdjacentHTML("beforeend", row);
     });
 
-    // Destroy old instance if needed
     if (findsTableInstance) {
       findsTableInstance.destroy();
     }
 
-    // ✅ Create new DataTable (v2 style)
     findsTableInstance = new DataTable("#findsTable", {
       paging: true,
       searching: true,
@@ -223,6 +221,30 @@ function createCheckboxes(counts) {
     container.appendChild(label);
   });
 }
+function selectAllFinds() {
+  document.getElementById("toggle-all").addEventListener("change", function () {
+    const checkboxes = document.querySelectorAll(
+      "#category-filters input[type='checkbox']"
+    );
+    const isChecked = this.checked;
+
+    checkboxes.forEach((cb) => {
+      cb.checked = isChecked;
+
+      // Update badge state
+      const label = cb.closest("label");
+      if (isChecked) {
+        label.classList.add("active");
+      } else {
+        label.classList.remove("active");
+      }
+    });
+
+    updateChart();
+
+    this.nextElementSibling.textContent = isChecked ? "All Finds" : "No Finds";
+  });
+}
 
 function updateChart() {
   const checkedBoxes = Array.from(
@@ -249,3 +271,5 @@ loadJsonData().then((data) => {
   renderDoughnutChart(allCounts);
   populateTable(data);
 });
+
+selectAllFinds();
